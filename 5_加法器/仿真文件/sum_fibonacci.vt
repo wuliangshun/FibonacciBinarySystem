@@ -1,0 +1,86 @@
+
+module sum_fibonacci_vlg_tst();
+reg clk;
+reg en_sum;
+reg [31:0] input_i;
+reg [31:0] input_j;
+reg rst;                                            
+wire [31:0]  out_sum;
+
+integer i;
+integer k;                           
+sum_fibonacci i1 (
+// port map - connection between master ports and signals/registers   
+	.clk(clk),
+	.en_sum(en_sum),
+	.input_i(input_i),
+	.input_j(input_j),
+	.out_sum(out_sum),
+	.rst(rst),
+	.sum_done (sum_done)
+);
+always
+begin
+	#10; 
+	clk = 1'b1; 
+	#10
+	clk = 1'b0;
+end
+
+initial  
+begin
+	/*------------- Input of 655+308------------- */
+        // Reset         
+	@(posedge clk) rst = 0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	rst = 1;
+	en_sum = 1'b0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	
+	input_i= 15'b101100111001010;
+   input_j= 15'b001101110101001;	
+	en_sum = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	en_sum = 1'b0; 
+	
+	wait (sum_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	
+	
+	
+	/*------------- Input of 108+55------------- */
+        // Reset         
+	
+	input_i= 11'b10111111010;
+   input_j= 10'b1010110001;	
+	en_sum = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	en_sum = 1'b0; 
+	
+	wait (sum_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+
+
+	
+	/*------------- Input of 32+32------------- */
+
+	
+	input_i= 8'b11111101;
+   input_j= 8'b11111101;	
+	en_sum = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	en_sum = 1'b0; 
+	
+	wait (sum_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	$stop;
+end 
+                                          
+endmodule
+

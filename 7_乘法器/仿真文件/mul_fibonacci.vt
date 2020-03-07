@@ -1,0 +1,88 @@
+
+module mul_fibonacci_vlg_tst();
+reg clk;
+reg en_mul;
+reg [31:0] input_i;
+reg [31:0] input_j;
+reg rst;
+// wires                                               
+wire mul_done;
+wire [31:0]  out_mul;
+integer i;
+integer k;
+
+mul_fibonacci i1 (
+
+	.clk(clk),
+	.en_mul(en_mul),
+	.input_i(input_i),
+	.input_j(input_j),
+	.mul_done(mul_done),
+	.out_mul(out_mul),
+	.rst(rst)
+);
+always
+begin
+	#10; 
+	clk = 1'b1; 
+	#10
+	clk = 1'b0;
+end
+
+initial  
+begin
+	/*------------- Input of 25*33------------- */
+        // Reset         
+	@(posedge clk) rst = 0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	rst = 1;
+	en_mul = 1'b0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	
+	input_i= 8'b11001110;
+   input_j= 8'b11111110;	
+	en_mul = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	en_mul = 1'b0; 
+	
+	wait (mul_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 5; k = k + 1) @(posedge clk);
+	
+	
+	/*------------- Input of 6*30------------- */
+        // Reset         
+	
+	
+	input_i= 6'b100100;
+   input_j= 8'b11101110;	
+	en_mul = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	en_mul = 1'b0; 
+	
+	wait (mul_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 5; k = k + 1) @(posedge clk);
+	
+	
+	
+	
+	/*------------- Input of 17*20------------- */
+   
+	
+	input_i= 8'b10010010;
+   input_j= 8'b10101000;	
+	en_mul = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	en_mul = 1'b0; 
+	
+	wait (mul_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 5; k = k + 1) @(posedge clk);
+	$stop;
+end 
+                                          
+endmodule

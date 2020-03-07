@@ -1,0 +1,152 @@
+
+module top_binary_fibonacci_vlg_tst();
+reg begin_b_f;
+reg clk;
+reg [31:0] input_binary;
+reg rst;
+// wires                                               
+wire [31:0]  binary_fibonacci_out;
+wire convert_done;
+
+integer i;
+integer k;
+                      
+top_binary_fibonacci i1 (
+
+	.begin_b_f(begin_b_f),
+	.fibonacci_standard (binary_fibonacci_out),
+	.clk(clk),
+	.convert_done(convert_done),
+	.input_binary(input_binary),
+	.rst(rst)
+);
+always
+begin
+	#10; 
+	clk = 1'b1; 
+	#10
+	clk = 1'b0;
+end
+
+initial  
+begin
+	/* ------------- Input of 5 ------------- */
+        // Reset         
+	@(posedge clk) rst = 0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	rst = 1;
+	begin_b_f = 1'b0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	
+	// Inputs into module/ Assert begin_fibo
+	input_binary = 5; 
+	begin_b_f = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	begin_b_f = 1'b0; 
+	
+	// Wait until convert is done	
+	wait (convert_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+
+	
+
+	/* ------------- Input of 9------------- */
+        // Reset         
+	@(posedge clk) rst = 0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	rst = 1;
+	begin_b_f = 1'b0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	
+	// Inputs into module/ Assert begin_fibo
+	input_binary = 9; 
+	begin_b_f = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	begin_b_f = 1'b0; 
+	
+	// Wait until calculation is done	
+	wait (convert_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+
+	
+	
+	
+	
+	/*/* ------------- Input of 17------------- */
+        // Reset         
+	@(posedge clk) rst = 0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	rst = 1;
+	begin_b_f = 1'b0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	
+	// Inputs into module/ Assert begin_fibo
+	input_binary = 17; 
+	begin_b_f = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	begin_b_f = 1'b0; 
+	
+	// Wait until calculation is done	
+	wait (convert_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+
+	
+
+	/*------------- Input of 54------------- */
+        // Reset         
+	@(posedge clk) rst = 0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	rst = 1;
+	begin_b_f = 1'b0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	
+	// Inputs into module/ Assert begin_fibo
+	input_binary = 54; 
+	begin_b_f = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	begin_b_f = 1'b0; 
+	
+	// Wait until calculation is done	
+	wait (convert_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+
+	
+	
+	
+	
+
+
+ 
+	/* ------------- Input of 72------------- */
+        // Reset         
+	@(posedge clk) rst = 0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	rst = 1;
+	begin_b_f = 1'b0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	
+	// Inputs into module/ Assert begin_fibo
+	input_binary = 72; 
+	begin_b_f = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	begin_b_f = 1'b0; 
+	
+	// Wait until calculation is done	
+	wait (convert_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	
+	$stop;
+	end 
+                                              
+endmodule
+

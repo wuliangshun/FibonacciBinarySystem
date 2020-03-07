@@ -1,0 +1,45 @@
+
+module top_stream_encryption_vlg_tst();
+
+reg clk;
+reg en;
+reg rst;
+                                             
+wire [31:0]  C;
+wire out_c;
+wire all_done;
+integer k;
+
+                        
+top_stream_encryption i1 ( 
+	.C(C),
+	.all_done(all_done),
+	.clk(clk),
+	.en(en),
+	.rst(rst),
+	.out_c (out_c)
+);
+initial clk=0;
+
+always #10 clk=~clk; 
+initial 
+begin
+
+    @(posedge clk) rst=0;
+	 for(k=0;k<1;k=k+1) @(posedge clk); 
+	 rst=1;
+	 en=1;
+	 for(k=0;k<1;k=k+1) @(posedge clk);
+	 en=0;
+	 
+	 wait(all_done==1);
+	 for(k=0;k<2;k=k+1) @(posedge clk);
+	 
+	 $stop;
+
+end 
+
+
+                                               
+endmodule
+

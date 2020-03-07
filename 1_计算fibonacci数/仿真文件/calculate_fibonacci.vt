@@ -1,0 +1,101 @@
+
+module calculate_fibonacci_vlg_tst();
+reg begin_fibo_en;
+reg clk;
+reg [9:0] input_i;
+reg rst;
+// wires                                               
+wire calculate_done;
+wire [15:0]  fibo_out;
+
+integer i;
+integer k; 
+
+
+calculate_fibonacci i1 (
+
+	.begin_fibo_en(begin_fibo_en),
+	.calculate_done(calculate_done),
+	.clk(clk),
+	.fibo_out(fibo_out),
+	.input_i(input_i),
+	.rst(rst)
+);
+always
+begin
+	#10; 
+	clk = 1'b1; 
+	#10
+	clk = 1'b0; 
+end
+
+initial  
+begin
+	/* ------------- Input of 5 ------------- */
+        // Reset         
+	@(posedge clk) rst = 0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	rst = 1;
+	begin_fibo_en = 1'b0; 
+	for (k = 0; k < 1; k = k + 1) @(posedge clk);
+	
+	// Inputs into module/ Assert begin_fibo
+	input_i = 5; 
+	begin_fibo_en = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	begin_fibo_en = 1'b0; 
+	
+	// Wait until calculation is done	
+	wait (calculate_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+
+
+
+	/* ------------- Input of 9 ------------- */
+        // Reset         
+	@(posedge clk) rst = 0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	rst = 1;
+	begin_fibo_en = 1'b0; 
+	for (k = 0; k < 1; k = k + 1) @(posedge clk);
+	
+	// Inputs into module/ Assert begin_fibo
+	input_i = 9; 
+	begin_fibo_en = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	begin_fibo_en = 1'b0; 
+	
+	// Wait until calculation is done	
+	wait (calculate_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	
+	 
+	/* ------------- Input of 12 ------------- */
+        // Reset         
+	@(posedge clk) rst = 0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	rst = 1;
+	begin_fibo_en = 1'b0; 
+	for (k = 0; k < 1; k = k + 1) @(posedge clk);
+	
+	// Inputs into module/ Assert begin_fibo
+	input_i = 12; 
+	begin_fibo_en = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	begin_fibo_en = 1'b0; 
+	
+	// Wait until calculation is done	
+	wait (calculate_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+
+
+	$stop;
+end 
+endmodule
+

@@ -1,0 +1,93 @@
+
+module div_fibonacci_vlg_tst();
+reg clk;
+reg en_div;
+reg [31:0] input_i;
+reg [31:0] input_j;
+reg rst;
+                                         
+wire div_done;
+wire [31:0]  out_div;
+wire [31:0]  out_yu_shu;
+integer i;
+integer k;
+                         
+div_fibonacci i1 (
+ 
+	.clk(clk),
+	.div_done(div_done),
+	.en_div(en_div),
+	.input_i(input_i),
+	.input_j(input_j),
+	.out_div(out_div),
+	.out_yu_shu(out_yu_shu),
+	.rst(rst)
+);
+always
+begin
+	#10; 
+	clk = 1'b1; 
+	#10
+	clk = 1'b0;
+end
+
+initial  
+begin
+	
+	/*------------- Input of 655÷308------------- */
+        // Reset         
+	@(posedge clk) rst = 0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	rst = 1;
+	en_div = 1'b0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	
+	input_i= 15'b101100111001010;
+   input_j= 15'b001101110101001;	
+	en_div = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	en_div = 1'b0; 
+	
+	wait (div_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 5; k = k + 1) @(posedge clk);
+	
+	
+	
+	/*------------- Input of 144÷33------------- */
+    
+	
+	input_i= 13'b1000000000000;
+   input_j= 8'b11111110;	
+	en_div = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	en_div = 1'b0; 
+	
+	wait (div_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 5; k = k + 1) @(posedge clk);
+	
+	
+	
+	
+	/*------------- Input of 13÷20------------- */
+
+	input_i= 8'b01100000;
+   input_j= 7'b1111111;	
+	en_div = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	en_div = 1'b0; 
+	
+	wait (div_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 5; k = k + 1) @(posedge clk);
+	$stop;
+end 
+
+	
+	                                        
+endmodule
+

@@ -1,0 +1,128 @@
+
+module top_fibonacci_random_vlg_tst();                                          
+
+reg begin_b_f;
+reg clk;
+reg [15:0] input_bin;
+reg rst;
+// wires                                               
+wire convert_done;
+wire [31:0]  fibonacci_random;
+integer i;
+integer k;
+                        
+top_fibonacci_random i1 (
+	.begin_b_f(begin_b_f),
+	.clk(clk),
+	.convert_done(convert_done),
+	.fibonacci_random(fibonacci_random),
+	.input_bin(input_bin),
+	.rst(rst)
+);
+                                               
+always
+begin
+	#10; 
+	clk = 1'b1; 
+	#10
+	clk = 1'b0;
+end
+initial  
+begin
+	/* ------------- Input of 5 ------------- */
+        // Reset         
+	@(posedge clk) rst = 0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	rst = 1;
+	begin_b_f = 1'b0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	
+	// Inputs into module/ Assert begin_fibo
+	input_bin = 5; 
+	begin_b_f = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	begin_b_f = 1'b0; 
+	
+	// Wait until convert is done	
+	wait (convert_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+
+	
+
+	/* ------------- Input of 9------------- */
+	
+	// Inputs into module/ Assert begin_fibo
+	input_bin = 9; 
+	begin_b_f = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	begin_b_f = 1'b0; 
+	
+	// Wait until calculation is done	
+	wait (convert_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+
+	
+	
+	
+	
+	
+	input_bin = 17; 
+	begin_b_f = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	begin_b_f = 1'b0; 
+	
+	// Wait until calculation is done	
+	wait (convert_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+
+	
+
+	/*------------- Input of 70------------- */
+
+	input_bin = 70; 
+	begin_b_f = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	begin_b_f = 1'b0; 
+	
+	// Wait until calculation is done	
+	wait (convert_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+
+	
+	
+	
+	
+
+
+ 
+	/* ------------- Input of 105------------- */
+  
+	
+	// Inputs into module/ Assert begin_fibo
+	input_bin = 105; 
+	begin_b_f = 1'b1; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	begin_b_f = 1'b0; 
+	
+	// Wait until calculation is done	
+	wait (convert_done == 1); 
+
+	// Idle cycles before next input 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+
+	
+
+	$stop;
+end 
+  
+
+                                    
+endmodule

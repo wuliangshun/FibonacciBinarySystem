@@ -1,0 +1,75 @@
+
+module top_rc4_crypt_vlg_tst();
+reg clk;
+reg [7:0] data_in;
+reg [127:0] key_in;
+reg rc4_ini;
+reg rstn;
+reg [7:0] sbox_dout;
+// wires                                               
+wire crypt_done;
+wire [7:0]  data_out;
+wire rc4_data_rd;
+wire rc4_data_wr;
+wire [7:0]  sbox_din;
+wire [7:0]  sbox_raddr;
+wire sbox_rd;
+wire [7:0]  sbox_waddr;
+wire sbox_wr;
+
+// assign statements (if any)                          
+top_rc4_crypt i1 (
+// port map - connection between master ports and signals/registers   
+	.clk(clk),
+	.crypt_done(crypt_done),
+	.data_in(data_in),
+	.data_out(data_out),
+	.key_in(key_in),
+	.rc4_data_rd(rc4_data_rd),
+	.rc4_data_wr(rc4_data_wr),
+	.rc4_ini(rc4_ini),
+	.rstn(rstn),
+	.sbox_din(sbox_din),
+	.sbox_dout(sbox_dout),
+	.sbox_raddr(sbox_raddr),
+	.sbox_rd(sbox_rd),
+	.sbox_waddr(sbox_waddr),
+	.sbox_wr(sbox_wr)
+);
+always #10 clk=~clk;
+initial                                                
+begin
+   clk=0;
+   @(posedge clk) rstn=0;
+   #20;
+	rstn=1;
+   rc4_ini=1;
+	data_in=8'b10010010;
+	key_in=128'h12345678955555669912345adef025bc;
+	sbox_dout=8'b00100111;
+	
+	#20;
+	rc4_ini=0;
+	
+	wait(crypt_done==1)
+	#20;
+	rstn=0;
+	
+	#20;
+	rstn=1;
+	 rc4_ini=1;
+	data_in=8'b10011110;
+	key_in=128'h123456789aaa55669912345adef025bc;
+	sbox_dout=8'b00111011;
+	
+	
+	
+	
+	
+	 wait(crypt_done==1)
+	#60;
+	$stop;
+	 
+end                                                      
+endmodule
+

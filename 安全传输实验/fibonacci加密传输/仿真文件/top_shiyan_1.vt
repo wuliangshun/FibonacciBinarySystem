@@ -1,0 +1,72 @@
+
+module top_shiyan_1_vlg_tst();
+reg clk;
+reg en_shiyan;
+reg [15:0] input_binary;
+reg rst;
+// wires                                               
+wire all_done;
+wire done_input;
+wire [31:0]  out_b;
+integer i;
+integer k;
+                       
+top_shiyan_1 i1 (
+
+	.all_done(all_done),
+	.clk(clk),
+	.en_shiyan(en_shiyan),
+	.input_binary(input_binary),
+	.out_b(out_b),
+	.rst(rst),
+	.done_input (done_input)
+);
+
+
+always
+begin
+	#10; 
+	clk = 1'b1; 
+	#10
+	clk = 1'b0;
+end
+
+initial  
+begin
+	
+	/*------------- Input of ------------- */
+        // Reset         
+	@(posedge clk) rst = 0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	rst = 1;
+	en_shiyan = 1'b0; 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	
+	input_binary= 16'b0000_0000_1010_0010;
+	en_shiyan = 1'b1; 
+	for (k = 0; k < 1; k = k + 1) @(posedge clk);
+	en_shiyan = 1'b0; 
+	
+	wait (done_input == 1); 
+
+ 
+	for (k = 0; k < 2; k = k + 1) @(posedge clk);
+	
+
+    
+	
+	input_binary=16'b0000_0000_1001_0001;	
+	en_shiyan = 1'b1; 
+	for (k = 0; k < 1; k = k + 1) @(posedge clk);
+	en_shiyan = 1'b0; 
+	
+	wait (all_done == 1); 
+
+	 
+	for (k = 0; k < 5; k = k + 1) @(posedge clk);
+	
+   $stop;
+end	
+                                               
+endmodule
+
