@@ -3,10 +3,10 @@ FibonacciBinarySystem
 Fibonacci/Zeckendorf Representation System research codes on FPGA platform
 
 ## Usage
-Install ModelSim SE, create a new Verilog project, add files to the project.
+Install ModelSim SE software, create a new Verilog project, add files to the project.
 
-* Module: \*.v, the source modules
-* Testbench: tb_\*.v, top_\*_vlg_tst.v, or \*.vt, the testbench files.
+* Module: `\*.v`, the source modules
+* Testbench: `tb_\*.v`, `top_\*_vlg_tst.v`, or `\*.vt`, the testbench files.
 
 The *.log files are output logs
 
