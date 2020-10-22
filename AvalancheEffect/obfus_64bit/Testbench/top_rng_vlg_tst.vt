@@ -1,0 +1,50 @@
+`timescale 1ns/1ns
+module top_rng(); 
+	reg             clk;
+	reg             rst;
+    wire   [7:0]    data;
+	
+	rng u_rng( 
+		.clk(clk),
+		.rst(rst),
+   	 	.data(data) 
+	);  
+
+	
+	// PARAMETERS
+	initial 
+	begin
+	rst=1;
+	#4 rst=0;
+	#2 rst=1;
+	end
+
+	// ASSIGN STATEMENTS
+	initial 
+	clk=0;
+	always
+	clk= #1 ~clk;
+
+
+	initial
+	begin
+		#30
+		$display("output: %b\n", data);
+
+		#2
+		$display("output: %b\n", data);
+
+		#2
+		$display("output: %b\n", data);
+
+		#2
+		$display("output: %b\n", data);
+
+		#2
+		$display("output: %b\n", data);
+
+		#2
+		$stop;
+	end
+
+endmodule

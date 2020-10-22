@@ -1,0 +1,86 @@
+`timescale 1ns/1ns
+module top_encode_encrypt_vlg_tst();
+
+reg en_encode;
+reg clk;
+reg [15:0] input_binary;
+reg rst;
+reg [63:0] key_i;
+reg des_mode;
+                                            
+wire [63:0] data_o;
+wire ready_o;
+
+reg [15:0] base_input;
+reg [63:0] base_output;
+reg [63:0] temp;
+reg [7:0] cnt;
+
+integer i;
+integer k;
+
+                        
+top_encode_encrypt i1 (
+	.en_encode(en_encode),
+	.clk(clk),	
+	.rst(rst),
+	.input_binary(input_binary),
+    .des_mode(des_mode),
+    .key_i(key_i),
+	.ready_o(ready_o),
+	.data_o(data_o)
+);
+
+initial clk = 1'b0;
+always #10 clk=~clk;
+
+initial  
+begin
+	$display("++++++++++++++++++ Test encode+encrypt  ++++++++++++++++++++");
+    des_mode = 1'b0; 
+	@(posedge clk) rst = 0; 
+	#20
+	rst = 1;
+	en_encode = 1'b0; 
+	#20	
+	input_binary = 16'b0010010001011010;
+    en_encode = 1'b1;
+    des_mode = 1'b0;
+    key_i = 64'h0123456789abcdef;	
+	// Wait until  done	
+	wait (ready_o == 1); 
+	$display("input: %d, binary:%b, output: %b\n", input_binary, input_binary, data_o);
+	
+	$display("++++++++++++++++++ Test avalanche effect  (fibonacci) ++++++++++++++++++++");	
+	base_output = data_o;
+	for(i=0; i<16; i=i+1)
+	begin
+		base_input = 16'b0010010001011010;
+		base_input[i] = ~base_input[i];
+		@(posedge clk) rst = 0; 
+		#20
+		rst = 1;
+		en_encode = 1'b0; 
+		#20	
+		input_binary = base_input;
+   		en_encode = 1'b1;
+    	des_mode = 1'b0;
+    	key_i = 64'h0123456789abcdef;	
+		// Wait until  done	
+		wait (ready_o == 1); 
+		$display("input: %b, output: %b\n", input_binary, data_o);
+		temp = data_o^base_output;
+		cnt = 8'b0;
+		for(k=0; k<64; k=k+1)
+		begin
+			if(temp[k]!=0) cnt=cnt+1;
+		end
+		$display("xor:%b, cnt:%d\n", temp, cnt);
+	end
+
+	#20
+	$stop;
+end
+
+
+endmodule
