@@ -1,6 +1,6 @@
 FibonacciBinarySystem
 =====================
-Fibonacci/Zeckendorf Representation System
+Fibonacci/Zeckendorf Representation System research codes on FPGA platform
 
 ## Usage
 Install ModelSim SE, create a new Verilog project, add files to the project.
