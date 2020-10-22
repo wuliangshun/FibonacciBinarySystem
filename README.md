@@ -5,8 +5,8 @@ Fibonacci/Zeckendorf Representation System
 ## Usage
 Install ModelSim SE, create a new Verilog project, add files to the project.
 
-* Module: *.v, the source modules
-* Testbench: tb_*.v, top_*_vlg_tst.v, or *.vt, the testbench files.
+* Module: \*.v, the source modules
+* Testbench: tb_\*.v, top_\*_vlg_tst.v, or \*.vt, the testbench files.
 
 The *.log files are output logs
 
